@@ -1,11 +1,12 @@
+import { AuthService } from './auth/auth.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 
 const routes: Routes = [
-    { path: '', loadChildren: './layout/layout.module#LayoutModule', canActivate: [AuthGuard] },
-    { path: 'login', loadChildren: './login/login.module#LoginModule' },
+    { path: '', loadChildren: './login/login.module#LoginModule' },
+    { path: 'layout', loadChildren: './layout/layout.module#LayoutModule', canActivate: [AuthGuard] },
     { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
     { path: 'error', loadChildren: './server-error/server-error.module#ServerErrorModule' },
     { path: 'access-denied', loadChildren: './access-denied/access-denied.module#AccessDeniedModule' },
@@ -15,6 +16,7 @@ const routes: Routes = [
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
+    providers: [ AuthService ]
 })
 export class AppRoutingModule {}
