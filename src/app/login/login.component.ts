@@ -26,11 +26,11 @@ export class LoginComponent implements OnInit {
         });
       }
 
-    onSubmit() {
+      onSubmit() {
         this.authService.login(this.f.value).subscribe(
             (response) => {
                 console.log('Response', response);
-                /*this.router.navigate(['layout']);*/
+                this.router.navigate(['layout']);
             },
             (errorResponse: HttpErrorResponse) => {
               if (errorResponse.status === 401 ) {
@@ -38,9 +38,5 @@ export class LoginComponent implements OnInit {
               }
             }
           );
-    }
-
-    onLoggedin() {
-        localStorage.setItem('isLoggedin', 'true');
     }
 }

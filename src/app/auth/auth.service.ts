@@ -13,10 +13,8 @@ export class AuthService {
     private router: Router) { }
 
     login(credentials: {email: string, password: string}): Observable<boolean> {
-
-        return this.http.post<any>(`${environment.api_url}/auth/login`, credentials)
+        return this.http.post<any>(`${environment.api_url}auth/login`, credentials)
         .do( data => {
-            console.log('Data', data);
           localStorage.setItem('token', data.token);
           localStorage.setItem('user', btoa(JSON.stringify(data.user)));
         });
