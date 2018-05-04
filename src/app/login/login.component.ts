@@ -1,6 +1,9 @@
+import { AuthService } from './../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
+import { FormsModule, FormGroup, FormBuilder, Validators,  ReactiveFormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-login',
@@ -9,11 +12,30 @@ import { routerTransition } from '../router.animations';
     animations: [routerTransition()]
 })
 export class LoginComponent implements OnInit {
-    constructor(public router: Router) {}
 
-    ngOnInit() {}
+    f: FormGroup;
+    errorCredentials = false;
+    constructor(public router: Router,
+        private authService: AuthService,
+        private formBuilder: FormBuilder ) {}
 
-    onLoggedin() {
-        localStorage.setItem('isLoggedin', 'true');
+    ngOnInit() {
+        this.f = this.formBuilder.group({
+          email: [null, [Validators.required, Validators.email]],
+          password: [null, [Validators.required]]
+        });
+      }
+
+      onSubmit() {
+        this.authService.login(this.f.value).subscribe(
+            (response) => {
+                this.router.navigate(['layout']);
+            },
+            (errorResponse: HttpErrorResponse) => {
+              if (errorResponse.status === 401 ) {
+                this.errorCredentials = true;
+              }
+            }
+          );
     }
 }

@@ -2,20 +2,33 @@
     <div class="row justify-content-md-center">
         <div class="col-md-4">
             <img src="assets/images/logo.png" width="150px" class="user-avatar" />
-            <h1>SB Admin BS4 Angular5</h1>
-            <form role="form">
+            <h1> S I G E</h1>
+            <br/>
+            <div class="alert alert-warning alert-dismissible" *ngIf = "errorCredentials" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>AVISO!</strong> Usuário ou Senha incorreta.
+            </div>
+            <form  [formGroup]="f" novalidate>
                 <div class="form-content">
-                    <div class="form-group">
-                        <input type="text" ng-model="name" class="form-control input-underline input-lg" id="" placeholder="Email">
+                    <div class="form-group has-feedback" [ngClass]="{'has-success': f.controls['email'].valid,
+                    'has-error': f.controls['email'].invalid && (f.controls['email'].touched || f.controls['email'].dirty)}">
+                        <input class="form-control input-underline input-lg" type="email" formControlName="email" id="InputEmail" placeholder="Email" >
+                        <span *ngIf="f.controls['email'].valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                        <span *ngIf="f.controls['email'].invalid && (f.controls['email'].touched || f.controls['email'].dirty)">
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            <span class="text-danger">E-mail inválido.</span>
+                        </span>
                     </div>
 
-                    <div class="form-group">
-                        <input type="password" class="form-control input-underline input-lg" id="" placeholder="Password">
+                    <div class="form-group" [ngClass]="{'has-success': f.controls['password'].valid,
+                    'has-error': f.controls['password'].invalid && (f.controls['password'].touched || f.controls['password'].dirty)}">
+                        <input class="form-control input-underline input-lg" type="password"  formControlName="password"  id="InputPassword" placeholder="Password">
+                        <span class="text-danger" *ngIf="f.controls['password'].invalid && (f.controls['password'].touched || f.controls['password'].dirty)">Campo obrigatório.</span>
                     </div>
+                    <button type="submit" class="btn  rounded-btn" [disabled]="f.invalid" (click)="onSubmit()">Entrar</button>&nbsp;
+                    <!--<a class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="onLoggedin()"> Log in </a>
+                &nbsp;-->
                 </div>
-                <a class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="onLoggedin()"> Log in </a>
-                &nbsp;
-                <a class="btn rounded-btn" [routerLink]="['/signup']">Register</a>
             </form>
         </div>
     </div>
