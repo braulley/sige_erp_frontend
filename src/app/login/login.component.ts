@@ -29,9 +29,12 @@ export class LoginComponent implements OnInit {
       onSubmit() {
         this.authService.login(this.f.value).subscribe(
             (response) => {
+                console.log('response', response);
                 this.router.navigate(['layout']);
             },
             (errorResponse: HttpErrorResponse) => {
+                console.log('f', this.f.value);
+                console.log('errorResponse', errorResponse);
               if (errorResponse.status === 401 ) {
                 this.errorCredentials = true;
               }
