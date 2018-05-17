@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 
+
 const routes: Routes = [
     { path: '', loadChildren: './login/login.module#LoginModule' },
     { path: 'layout', loadChildren: './layout/layout.module#LayoutModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard] },

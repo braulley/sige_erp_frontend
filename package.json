@@ -26,7 +26,7 @@
         "@ngx-translate/core": "^9.1.1",
         "@ngx-translate/http-loader": "^2.0.1",
         "chart.js": "^2.7.2",
-        "core-js": "^2.5.4",
+        "core-js": "^2.5.6",
         "font-awesome": "^4.7.0",
         "ng2-charts": "^1.6.0",
         "rxjs": "^5.5.8",
@@ -37,9 +37,9 @@
         "@angular/cli": "1.7.3",
         "@angular/compiler-cli": "^5.2.9",
         "@angular/language-service": "^5.2.9",
-        "@types/jasmine": "~2.8.6",
+        "@types/jasmine": "^2.8.7",
         "@types/jasminewd2": "~2.0.3",
-        "@types/node": "^9.6.1",
+        "@types/node": "^9.6.14",
         "codelyzer": "~4.2.1",
         "jasmine-core": "~3.1.0",
         "jasmine-spec-reporter": "~4.2.1",
@@ -47,11 +47,11 @@
         "karma-chrome-launcher": "~2.2.0",
         "karma-cli": "~1.0.1",
         "karma-coverage-istanbul-reporter": "^1.4.2",
-        "karma-jasmine": "~1.1.1",
-        "karma-jasmine-html-reporter": "^1.0.0",
+        "karma-jasmine": "^1.1.2",
+        "karma-jasmine-html-reporter": "^1.1.0",
         "protractor": "~5.3.0",
         "ts-node": "~5.0.1",
         "tslint": "~5.9.1",
-        "typescript": "~2.8.1"
+        "typescript": "^2.6.2"
     }
 }
