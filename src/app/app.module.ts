@@ -1,11 +1,15 @@
+import { Data } from './data/data';
 import { RefreshTokenInterceptor } from './interceptor/refresh-token.interceptor';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpModule } from '@angular/http';
+
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,6 +31,7 @@ export function createTranslateLoader(http: HttpClient) {
         BrowserAnimationsModule,
         HttpClientModule,
         LoginModule,
+        HttpModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -42,6 +47,8 @@ export function createTranslateLoader(http: HttpClient) {
         { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true }
     ],
-    bootstrap: [AppComponent]
+    exports:[],
+    bootstrap: [AppComponent],
+    schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule {}

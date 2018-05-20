@@ -8,45 +8,50 @@
             <table class=" table-responsive table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">Número de Registro</th>
-                        <th scope="col">Nome do Cliente</th>
-                        <th scope="col">Valor da Compra</th>
-                        <th scope="col">Data de Registro da Venda</th>
-                        <th scope="col">Descrição</th>
-                        <th scope="col">Observação 1</th>
-                        <th scope="col">Observação 2</th>
+                        <th scope="col">Nome da Empresa/PJ</th>
+                        <th scope="col">Descricao</th>
+                        <th scope="col">Data de Registro</th>
+                        <th scope="col">Data Vencimento</th>
+                        <th scope="col">Data de Pagamento</th>
+                        <th scope="col">Setor</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
+                    <tbody *ngFor="let item of contas " >
+                            <tr >
+                                <td scope="row">{{item.nome}}</td>
+                                <td>{{item.descricao}}</td>
+                                <td>{{item.data_registro | date:'dd-MM-yyyy'}}</td>
+                                <td>{{item.data_vencimento | date:'dd-MM-yyyy'}}</td>
+                                <td>{{item.data_pagamento | date:'dd-MM-yyyy'}}</td>
+                                <td>{{item.setor}}</td>
+                            </tr>
                     </tbody>
                 </table>
+                <div>
+                    <div class="container">
+                        <div class="text-center">
+                            <nav aria-label="Page navigation example">
+                                <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                                    <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                                        <a class="page-link" (click)="setPage(1)">First</a>
+                                    </li>
+                                    <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                                        <a class="page-link" (click)="setPage(pager.currentPage - 1)">Previous</a>
+                                    </li>
+                                    <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                                        <a class="page-link" (click)="setPage(page)">{{page}}</a>
+                                    </li>
+                                    <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                        <a class="page-link" (click)="setPage(pager.currentPage + 1)">Next</a>
+                                    </li>
+                                    <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                        <a class="page-link" (click)="setPage(pager.totalPages)">Last</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
 </div>
