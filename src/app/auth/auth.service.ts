@@ -3,21 +3,27 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/toPromise';
-import { environment } from '../../environments/environment';
+import { HttpHeaders } from '@angular/common/http';
+
 import { Observable } from 'rxjs/Observable';
+import { User } from '../interface/user.model';
+import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable()
 export class AuthService {
 
   constructor(private http: HttpClient,
     private router: Router) { }
+    headers: any = new HttpHeaders();
 
     check(): boolean {
         return localStorage.getItem('user') ? true : false;
-      }
+    }
 
-    login(credentials: {email: string, password: string}): Observable<boolean> {
-        return this.http.post<any>(`${environment.api_url}auth/login`, credentials)
+    login(credentials: {email: string, password: string} ): Observable<any> {
+
+        return this.http.post<any>(`${ environment .api_url}/auth/login`, credentials)
         .do( data => {
           localStorage.setItem('token', data.token);
           localStorage.setItem('user', btoa(JSON.stringify(data.user)));
@@ -32,7 +38,7 @@ export class AuthService {
         });
     }
 
-    getUser(): any {
+    getUser(): User {
         return localStorage.getItem('user') ? JSON.parse(atob(localStorage.getItem('user'))) : null;
     }
 

@@ -1,3 +1,7 @@
+import { PageService } from './layout/page/page.service';
+import { DataService } from './data/data.service';
+import { Data } from './data/data';
+
 import { AuthService } from './auth/auth.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -17,6 +21,6 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
-    providers: [ AuthService ]
+    providers: [ AuthService , DataService, Data, PageService]
 })
 export class AppRoutingModule {}
