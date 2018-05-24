@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbCarouselModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
+import { ChartsModule as Ng2Charts } from 'ng2-charts';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
@@ -17,7 +20,7 @@ import { StatModule } from '../../shared';
         NgbCarouselModule.forRoot(),
         NgbAlertModule.forRoot(),
         DashboardRoutingModule,
-        StatModule
+        StatModule,FormsModule,NgbModule,Ng2Charts
     ],
     declarations: [
         DashboardComponent,

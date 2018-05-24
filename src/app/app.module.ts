@@ -8,6 +8,9 @@ import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpModule } from '@angular/http';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
+
 
 
 
@@ -32,6 +35,8 @@ export function createTranslateLoader(http: HttpClient) {
         HttpClientModule,
         LoginModule,
         HttpModule,
+        NgbModule.forRoot(),
+        FormsModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
