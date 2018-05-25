@@ -1,49 +1,111 @@
-<div [@routerTransition]>
-    <h2 class="text-muted">Dashboard <small>Statistics Overview</small></h2>
-    <div class="row">
-        <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'primary'" [icon]="'fa-comments'" [count]="26" [label]="'New Comments!'" ></app-stat>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'warning'" [icon]="'fa-tasks'" [count]="12" [label]="'New task!'" ></app-stat>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'New Orders!'" ></app-stat>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'danger'" [icon]="'fa-support'" [count]="13" [label]="'New Tickets!'"></app-stat>
-        </div>
-    </div>
-    <hr />
-    <ngb-alert [type]="alert.type" (close)="closeAlert(alert)" *ngFor="let alert of alerts">{{ alert.message }}</ngb-alert>
-    <hr />
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="card card-default">
-                <div class="card-header">
-                    <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
-                </div>
-                <!-- /.card-header -->
-                <app-timeline></app-timeline>
-                <!-- /.card-body -->
+    <div [@routerTransition]>
+        <h2 class="text-muted">Dashboard <small>Estatísticas de Fluxo de Caixa (Últimos 30 dias)</small></h2>
+        <div class="row">
+            <div class="col-xl-3 col-lg-6">
+                <app-stat [bgClass]="'primary'" [icon]="'fa-comments'" [count]="totalReceitas" [label]="'Receitas'" ></app-stat>
             </div>
-            <!-- /.card -->
-        </div>
-        <!-- /.col-lg-8 -->
-        <div class="col-lg-4">
-            <div class="card card-default mb-3">
-                <div class="card-header">
-                    <i class="fa fa-bell fa-fw"></i> Notifications card
-                </div>
-                <!-- /.card-header -->
-                <app-notification></app-notification>
-                <!-- /.card-body -->
+            <div class="col-xl-3 col-lg-6">
+                <app-stat [bgClass]="'warning'" [icon]="'fa-tasks'" [count]="totalDespesas" [label]="'Desesas'" ></app-stat>
             </div>
-            <!-- /.card -->
+            <div class="col-xl-3 col-lg-6">
+                <app-stat [bgClass]="'success'" [icon]="'fa-shopping-cart'" [count]="lucroPrejuizo" [label]="'Lucro/Prejuízo'" ></app-stat>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+                <app-stat [bgClass]="'danger'" [icon]="'fa-support'" [count]="13" [label]="'Lucratividade'"></app-stat>
+            </div>
+        </div>
+        <hr>
+        <div class="container"><!-- Content here -->
+            <div class="row">
+                <div class="col-sm-5">
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-2 col-form-label">Data Início</label><br>
+                            <div class="col-10">
+                                <input  [(ngModel)]="data_inicio" class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                            </div>
+                        </div>
+                    <hr/>
+                </div>
+                <div class="col-sm-5">
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-2 col-form-label">Data Fim</label><br>
+                            <div class="col-10">
+                                <input [(ngModel)]="data_fim" class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                            </div>
+                        </div>
+                    <hr/>
+                </div>
+                <div class="col-sm-2">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" (click)="gerar()">Gerar Relatório</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-6">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Despesas</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Por período</h6>
+                            <p class="card-text">{{resultadoDespesa | currency }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-sm-6">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Receitas</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Por período</h6>
+                            <p class="card-text">{{resultadoReceita | currency }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-4">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Despesas RH</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Por período</h6>
+                            <p class="card-text">{{relatorioGeral.rh | currency}}</p>
+                        </div>
+                    </div>
+                </div>
 
-            <app-chat></app-chat>
-            <!-- /.card .chat-card -->
+                <div class="col col-sm-4">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Despesas Logística</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Por período</h6>
+                                <p class="card-text">{{relatorioGeral.logistica | currency}}</p>
+                            </div>
+                        </div>
+                </div>
+
+                <div class="col col-sm-4">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Despesas Compras</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Por período</h6>
+                                <p class="card-text">{{relatorioGeral.compras | currency}}</p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-sm-3">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                                <h5 class="card-title">Despesas Vendas</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Por período</h6>
+                                <p class="card-text">{{relatorioGeral.vendas | currency}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /.col-lg-4 -->
+        <hr />
     </div>
-</div>
