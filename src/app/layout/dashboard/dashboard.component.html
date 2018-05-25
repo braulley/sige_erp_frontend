@@ -15,6 +15,102 @@
             </div>
         </div>
         <hr>
+        <div class="row">
+            <div class="col col-sm-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        Receitas
+                    </div>
+                    <div class="card-body">
+                        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                        </canvas>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-sm-6">
+                <div class="card-header">
+                    Despesas
+                </div>
+                <div class="card-body">
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-sm-4">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        Despesas RH
+                    </div>
+                    <div class="card-body">
+                        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                        </canvas>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-sm-4">
+                <div class="card-header">
+                    Despesas Logística
+                </div>
+                <div class="card-body">
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+                </div>
+            </div>
+            <div class="col col-sm-4">
+                <div class="card-header">
+                    Despesas Despesas Vendas
+                </div>
+                <div class="card-body">
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-sm-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        Despesas Compras
+                    </div>
+                    <div class="card-body">
+                        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                        </canvas>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-sm-6">
+                <div class="card-header">
+                    Despesas Financeiro
+                </div>
+                <div class="card-body">
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+                </div>
+            </div>
+        </div>
         <div class="container"><!-- Content here -->
             <div class="row">
                 <div class="col-sm-5">
@@ -107,5 +203,5 @@
                 </div>
             </div>
         </div>
-        <hr />
+        <hr/>
     </div>

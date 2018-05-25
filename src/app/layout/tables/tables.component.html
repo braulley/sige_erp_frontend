@@ -1,57 +1,33 @@
 <div [@routerTransition]>
-    <app-page-header [heading]="'CONTAS A PAGAR'" [icon]="'fa-table'"></app-page-header>
+    <app-page-header [heading]="'Relatório Estratégico'" [icon]="'fa-table'"></app-page-header>
     <div class="row">
-        <div class="col-md-12 col-xl-12 col-lg-12">
-            <div class="card-header">
-                Lista de Despesas
-            </div>
-            <table class=" table-responsive table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Nome da Empresa/PJ</th>
-                        <th scope="col">Descricao</th>
-                        <th scope="col">Data de Registro</th>
-                        <th scope="col">Data Vencimento</th>
-                        <th scope="col">Data de Pagamento</th>
-                        <th scope="col">Setor</th>
-                      </tr>
-                    </thead>
-                    <tbody *ngFor="let item of contas " >
-                            <tr >
-                                <td scope="row">{{item.nome}}</td>
-                                <td>{{item.descricao}}</td>
-                                <td>{{item.data_registro | date:'dd-MM-yyyy'}}</td>
-                                <td>{{item.data_vencimento | date:'dd-MM-yyyy'}}</td>
-                                <td>{{item.data_pagamento | date:'dd-MM-yyyy'}}</td>
-                                <td>{{item.setor}}</td>
-                            </tr>
-                    </tbody>
-                </table>
-                <div>
-                    <div class="container">
-                        <div class="text-center">
-                            <nav aria-label="Page navigation example">
-                                <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
-                                    <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
-                                        <a class="page-link" (click)="setPage(1)">First</a>
-                                    </li>
-                                    <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
-                                        <a class="page-link" (click)="setPage(pager.currentPage - 1)">Previous</a>
-                                    </li>
-                                    <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
-                                        <a class="page-link" (click)="setPage(page)">{{page}}</a>
-                                    </li>
-                                    <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                                        <a class="page-link" (click)="setPage(pager.currentPage + 1)">Next</a>
-                                    </li>
-                                    <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                                        <a class="page-link" (click)="setPage(pager.totalPages)">Last</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Gastos últimos 6 meses/ Comparação Vendas
                 </div>
+                <div class="card-body">
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+                </div>
+            </div>
+        </div>
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Lucro/Prejuízo(6 Meses)
+                </div>
+                <div class="card-body">
+                    <canvas baseChart height="150px" [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-info btn-sm" (click)="gerarLucro()">Update</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
