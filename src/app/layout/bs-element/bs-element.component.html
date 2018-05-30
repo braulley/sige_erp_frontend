@@ -1,19 +1,85 @@
 <div [@routerTransition] >
-    <app-page-header [heading]="'RH x Vendas x Compras (Estratégico)'" [icon]="'fa-desktop'"></app-page-header>
+    <app-page-header [heading]="'Fluxo de Caixa (Operacional)'" [icon]="'fa-desktop'"></app-page-header>
     <div class="row">
-        <div class="col col-sm-12">
-            <div class="card mb-3">
-                <div class="card-header">
-                    Compras Estoque x Vendas
-                </div>
-                <div class="card-body">
-                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
-                    </canvas>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+            <div class="col col-sm-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        Fluxo de Caixa Diário
+                    </div>
+                    <div class="card-body">
+                        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                        </canvas>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+                    </div>
                 </div>
             </div>
+        </div>
+    <div class="row">
+        <div class="col col-sm-12">
+                <h6>Contas a Pagar</h6>
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                  </tr>
+                </tbody>
+              </table>
+              <h6>Contas a Receber</h6>
+              <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                  </tr>
+                </tbody>
+              </table>
         </div>
     </div>
 </div>
