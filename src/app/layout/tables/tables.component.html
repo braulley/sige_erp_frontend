@@ -30,4 +30,17 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col col-sm-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Line Chart
+                </div>
+                <div class="card-body">
+                    <canvas baseChart height="130" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

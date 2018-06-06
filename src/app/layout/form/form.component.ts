@@ -18,7 +18,8 @@ export class FormComponent implements OnInit {
     allItem: any;
 
     error:any;
-
+    model: any;
+    modelx: any;
     constructor(private pageService: PageService, private dataService: DataService ) {
     }
 

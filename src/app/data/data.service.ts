@@ -12,7 +12,9 @@ export class DataService {
 
   constructor(private http: Http) { }
 
-  urlFinanceiro:any =  `https://corerestserver20180515102643plan.azurewebsites.net/api/financeiro`;
+  //urlFinanceiro:any =  `https://corerestserver20180515102643plan.azurewebsites.net/api/financeiro`;
+  urlFinanceiro:any =  ` http://127.0.0.1:8000/api/lancamentos`;
+
   urlRh:any =  `http://ec2-54-236-22-229.compute-1.amazonaws.com/?id=2`;
   urlVendas:any = `https://erp-vendas.azurewebsites.net/financeiro.php`;
   urlEstoque:any = `https://slim-webservice.azurewebsites.net/Estoque/Financeiro`;

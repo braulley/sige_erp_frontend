@@ -22,6 +22,8 @@ export class TablesComponent implements OnInit {
     datas: Array<any> = [];
     datasRh: Array<any> = [];
     datasVendas: Array<any> = [];
+    datasLogistica: Array<any> = [{data_registro: new Date()}];
+    grafico: Array<any> = [];
 
     // paged items
     pagedItems: any[];
@@ -36,6 +38,11 @@ export class TablesComponent implements OnInit {
     }
 
 
+    public randomDate(start, end) {
+        let day = Math.random() * (end.getDate() - start.getDate())
+        var date = new Date(start.getFullYear(),start.getMonth(),day);
+        return date;
+    }
 
     ngOnInit() {
        var dataHoje = new Date();
@@ -51,6 +58,46 @@ export class TablesComponent implements OnInit {
         });
        }
        ),(error => this.error = error) );
+
+       var self = this;
+       this.data.getEstoque()
+        .subscribe( (response => {
+            this.datasLogistica = response;
+            let startDate = new Date(2017, 5, 6);
+            this.datasLogistica.forEach( function(element, index)  {
+                element.data_registro = new Date();
+                let split = element.preco.split('R$');
+                split = parseFloat(split[1]);
+                element.preco = split;
+                console.log('element',typeof(element.preco), typeof(element.quantidade));
+                if(index < 19){
+                    element.data_registro = new Date(2017,5,6); ;
+                }else if(index >=19 && index <38 ) {
+                    element.data_registro = new Date(2017,6,6);
+                }else if(index >=38 && index <57){
+                    element.data_registro =  new Date(2017,7,6);
+                }else if(index >=57 && index <76){
+                    element.data_registro =  new Date(2017,8,6);
+                }else if(index >=76 && index <95){
+                    element.data_registro =  new Date(2017,9,6);
+                }else if(index >=95 && index <114){
+                    element.data_registro =  new Date(2017,10,6);
+                }else if(index >=114 && index <133){
+                    element.data_registro =  new Date(2017,11,6);
+                }else if(index >=133 && index <152){
+                    element.data_registro =  new Date(2017,12,6);
+                }else if(index >=152 && index <171){
+                    element.data_registro =  new Date(2018,1,6);
+                }else if(index >=171 && index <190){
+                    element.data_registro =  new Date(2018,2,6);
+                }else if(index >=190 && index <209){
+                    element.data_registro =  new Date(2018,3,6);
+                }else {
+                    element.data_registro = new Date(2018,4,6);
+                }
+            });
+
+        }), (error => this.error = error));
 
        this.data.getVendas()
             .subscribe(( response => {
@@ -185,4 +232,54 @@ export class TablesComponent implements OnInit {
          * assign it;
          */
     }
+
+    // lineChart
+    public lineChartData: Array<any> = [
+        { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+        { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
+        { data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C' }
+    ];
+    public lineChartLabels: Array<any> = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July'
+    ];
+    public lineChartOptions: any = {
+        responsive: true
+    };
+    public lineChartColors: Array<any> = [
+        {
+            // grey
+            backgroundColor: 'rgba(148,159,177,0.2)',
+            borderColor: 'rgba(148,159,177,1)',
+            pointBackgroundColor: 'rgba(148,159,177,1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+        },
+        {
+            // dark grey
+            backgroundColor: 'rgba(77,83,96,0.2)',
+            borderColor: 'rgba(77,83,96,1)',
+            pointBackgroundColor: 'rgba(77,83,96,1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(77,83,96,1)'
+        },
+        {
+            // grey
+            backgroundColor: 'rgba(148,159,177,0.2)',
+            borderColor: 'rgba(148,159,177,1)',
+            pointBackgroundColor: 'rgba(148,159,177,1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+        }
+    ];
+    public lineChartLegend: boolean = true;
+    public lineChartType: string = 'line';
 }
