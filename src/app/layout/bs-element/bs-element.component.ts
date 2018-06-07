@@ -138,17 +138,13 @@ export class BsElementComponent implements OnInit {
                             this.totalPagar = parseFloat(this.totalPagar) + parseFloat(element.valor);
                         }
                     });
-                    console.log('totalReceitas',this.totalReceitas);
-                    console.log('totalDespesas',this.totalDespesas);
                     let caixa = parseFloat(this.totalReceitas) - parseFloat(this.totalDespesas);
-                    console.log('caixa',caixa);
                     const dataCaixa = [
                         caixa
                     ];
                     const cloneCaixa = JSON.parse(JSON.stringify(this.barChartDataCaixa));
                     cloneCaixa[0].data = dataCaixa;
                     this.barChartDataCaixa = cloneCaixa;
-                    console.log('barChartDataCaixa',this.barChartDataCaixa);
 
                     let s = parseFloat(this.totalPagar).toPrecision(4);
                     s  = s.toString();
@@ -237,7 +233,6 @@ export class BsElementComponent implements OnInit {
     }
 
     gerar() {
-        if (this.modo_despesa == "1") {
             this.totalReceitasValor = 0.00;
             this.totalDespesasValor = 0.00;
             this.totalLucroPrejuizo = 0.00;
@@ -328,10 +323,7 @@ export class BsElementComponent implements OnInit {
             this.percentMargem = [this.totalLucroPrejuizo];
             this.pieChartDataMargem = this.percentMargem;
             this.hide = false;
-        }
-        if(this.modo_despesa == "2"){
-            this.show = true;
-        }
+
     }
 
     // bar chart Receitas/Despesas

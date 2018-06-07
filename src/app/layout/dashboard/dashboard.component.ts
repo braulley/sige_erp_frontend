@@ -23,6 +23,19 @@ export class DashboardComponent implements OnInit {
     totalDespesas: any = 0;
     totalReceitas: any = 0;
     lucroPrejuizo: any = 0;
+    rh: any;
+    Rh: any;
+    totalVendas: Number = 0;
+    vendas: any;
+    temp: Number = 0;
+    estoque: Array<any> = [];
+    dataInicio = new Date(2017, 5, 23);
+    calculoEstoque: Array<any> = [];
+
+
+    dataFim = new Date();
+    totalEstoque: Number = 0;
+
     relatorioGeral: any = { receita : 0 , despesa: 0, rh: 0, logistica: 0, vendas: 0, compras: 0, financeiro: 0}
 
     resultadoReceita: any = 0;
@@ -75,6 +88,76 @@ export class DashboardComponent implements OnInit {
             .subscribe(
                 (response => {
                     this.datas = response;
+
+                    var tam = this.datas.length;
+                    this.dataService.getRh()
+                        .subscribe((response => {
+                            this.rh = response;
+                            this.rh.forEach(element => {
+                                let srtx = element.DATA_ADMISSAO;
+                                let srty = element.DATA_DEMISSAO;
+                                let x = srtx.split('/');
+                                let y = srty.split('/');
+                                element.DATA_ADMISSAO = new Date(x[2], x[1], x[0]);
+                                element.DATA_DEMISSAO = new Date(y[2], y[1], y[0]);
+                                let dats = this.dataInicio;
+                                let admAno = dats.getMonth();
+
+                                let inicio = this.dataInicio.getMonth();
+
+                                while (dats <= element.DATA_DEMISSAO) {
+                                    tam++;
+                                    dats.setMonth(admAno);
+                                    var obj = {
+                                        id: tam,
+                                        categoria: 'despesas',
+                                        data_pagamento: dats,
+                                        data_registro: '',
+                                        data_vencimento: '',
+                                        descricao: '',
+                                        setor: 'Rh',
+                                        nome: element.NOME,
+                                        obeservacao1: '',
+                                        observacao2: '',
+                                        pago: 'sim',
+                                        recebido: '',
+                                        valor: element.SALARIO
+                                    }
+
+                                    admAno++;
+                                    this.datas.push(obj);
+                                }
+                            });
+                        }),
+                        (error => this.error = error));
+
+                        this.dataService.getEstoque()
+                        .subscribe((response => {
+                            this.estoque = response;
+                            this.estoque.forEach(element => {
+                                element.preco = element.preco.split('R$ ');
+                                element.preco = parseFloat(element.preco[1]);
+                                element.quantidade = parseInt(element.quantidade);
+                                this.temp = element.preco * element.quantidade;
+                                this.calculoEstoque.push(this.temp);
+                            });
+                            this.calculoEstoque.forEach(element => {
+                                element = parseFloat(element);
+                                this.totalEstoque += element;
+                            });
+                        }), (error => this.error = error));
+
+                        this.dataService.getVendas()
+                            .subscribe((response => {
+                                this.vendas = response;
+                                this.vendas.forEach(element => {
+                                    element.valor = parseFloat(element.valor);
+                                    this.totalVendas += element.valor;
+                                });
+                            }),
+                        (error => this.error = error));
+
+
                     this.datas.sort(function(a, b){
                         if (new Date(a.data_registro ) < new Date(b.data_registro))
                             return -1;
@@ -92,6 +175,12 @@ export class DashboardComponent implements OnInit {
                         }
                    }
                    this.lucroPrejuizo = this.totalReceitas - this.totalDespesas;
+
+
+
+                   //const cloneDespesas = JSON.parse(JSON.stringify(this.barChartDataDespesas));
+                  //cloneDespesas[0].data = data;
+                    //this.barChartDataDespesas = cloneDespesas;
                 }),
                 (error => this.error = error) );
     }
@@ -124,40 +213,27 @@ export class DashboardComponent implements OnInit {
                 }
             }
         }
-
-        for(let j =0; j <  this.barChartData.length; j++){
-            if(j == 0){
-                this.barChartData[j].data = this.resultadoReceita;
-            }
-            else{
-                this.barChartData[j].data = this.resultadoDespesa;
-            }
-        }
-
-
-
     }
 
     // bar chart
-    public barChartOptions: any = {
+    public barChartOptionsDespesas: any = {
         scaleShowVerticalLines: false,
         responsive: true
     };
-    public barChartLabels: string[] = [
-        '2006',
-        '2007',
-        '2008',
-        '2009',
-        '2010',
-        '2011',
-        '2012'
+    public barChartLabelsDespesas: string[] = [
+        'Dezembro 2018',
+        'Janeiro 2018',
+        'Fevereiro 2018',
+        'Março 2018',
+        'Abril 2018',
+        'Maio 2018'
     ];
-    public barChartType: string = 'bar';
-    public barChartLegend: boolean = true;
+    public barChartTypeDespesas: string = 'bar';
+    public barChartLegendDespesas: boolean = true;
 
-    public barChartData: any[] = [
-        { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-        { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+    public barChartDataDespesas: any[] = [
+        { data: [65, 59, 80, 81, 56, 55], label: 'Despesas' },
+        { data: [28, 48, 40, 19, 86, 27], label: 'Receitas' }
     ];
     filterReceita(filter) {
         return filter === 'despesas';
@@ -178,9 +254,7 @@ export class DashboardComponent implements OnInit {
             Math.random() * 100,
             40
         ];
-        const clone = JSON.parse(JSON.stringify(this.barChartData));
-        clone[0].data = data;
-        this.barChartData = clone;
+
         /**
          * (My guess), for Angular to recognize the change in the dataset
          * it has to change the dataset variable directly,
