@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { DataService } from './../../data/data.service';
 import { Data } from './../../data/data';
 import { Component, OnInit } from '@angular/core';
@@ -89,6 +90,37 @@ export class DashboardComponent implements OnInit {
                 (response => {
                     this.datas = response;
 
+                    this.datas.forEach( element => {
+                        let date = new Date(2018,5,31);
+                        date.setMonth(date.getMonth() - 6);
+                        element.data_registro = new Date(element.data_registro);
+
+                        if(element.data_registro > date){
+                            if(element.categoria == 'despesas'){
+                                if(element.setor == 'rh'){
+                                    this.relatorioGeral.rh = parseFloat(this.relatorioGeral.rh);
+                                    this.relatorioGeral.rh += parseFloat(element.valor);
+                                }if(element.setor == 'logistica'){
+                                    this.relatorioGeral.logistica = parseFloat(this.relatorioGeral.logistica);
+                                    this.relatorioGeral.logistica += parseFloat(element.valor);
+                                }if(element.setor == 'vendas'){
+                                    this.relatorioGeral.vendas = parseFloat(this.relatorioGeral.vendas);
+                                    this.relatorioGeral.vendas += parseFloat(element.valor);
+                                }if(element.setor == 'compras'){
+                                    this.relatorioGeral.compras = parseFloat(this.relatorioGeral.compras);
+                                    this.relatorioGeral.compras += parseFloat(element.valor);
+                                }if(element.setor == 'financeiro'){
+                                    this.relatorioGeral.financeiro = parseFloat(this.relatorioGeral.financeiro);
+                                    this.relatorioGeral.financeiro += parseFloat(element.valor);
+                                }
+                                this.resultadoDespesa += parseFloat(element.valor);
+                            }if(element.categoria == 'receitas'){
+                                this.resultadoReceita += parseFloat(element.valor);
+                                this.relatorioGeral.receita += parseFloat(element.valor);
+                            }
+                        }
+                    });
+
                     var tam = this.datas.length;
                     this.dataService.getRh()
                         .subscribe((response => {
@@ -128,6 +160,10 @@ export class DashboardComponent implements OnInit {
                                     this.datas.push(obj);
                                 }
                             });
+
+                            this.rh.foreach(element => {
+                                this.relatorioGeral.rh += element.valor;
+                            });
                         }),
                         (error => this.error = error));
 
@@ -144,6 +180,7 @@ export class DashboardComponent implements OnInit {
                             this.calculoEstoque.forEach(element => {
                                 element = parseFloat(element);
                                 this.totalEstoque += element;
+                                this.relatorioGeral.logistica+= element;
                             });
                         }), (error => this.error = error));
 
@@ -153,6 +190,7 @@ export class DashboardComponent implements OnInit {
                                 this.vendas.forEach(element => {
                                     element.valor = parseFloat(element.valor);
                                     this.totalVendas += element.valor;
+                                    this.relatorioGeral.receita += element.valor;
                                 });
                             }),
                         (error => this.error = error));
@@ -174,46 +212,60 @@ export class DashboardComponent implements OnInit {
                             this.totalReceitas += parseFloat(this.datas[i].valor);
                         }
                    }
+                   this.totalReceitas = this.relatorioGeral.receita;
+
+
+                   this.relatorioGeral.despesa += this.relatorioGeral.rh;
+                   this.relatorioGeral.despesa += this.relatorioGeral.compras;
+                   this.relatorioGeral.despesa += this.relatorioGeral.financeiro;
+                   this.relatorioGeral.despesa += this.relatorioGeral.logistica;
+                   this.relatorioGeral.despesa += this.relatorioGeral.vendas;
+
+                   this.totalDespesas = this.relatorioGeral.despesa;
                    this.lucroPrejuizo = this.totalReceitas - this.totalDespesas;
+                   const despesaGrafico = [
+                        parseFloat(this.relatorioGeral.despesa).toFixed(2)
+                   ];
+                   const receitaGrafico = [
+                        parseFloat(this.relatorioGeral.receita).toFixed(2)
+                   ];
 
+                   const cloneDespesas = JSON.parse(JSON.stringify(this.barChartDataDespesas));
+                   console.log('cloneDespesas',cloneDespesas);
+                   cloneDespesas[0].data = despesaGrafico;
+                   cloneDespesas[1].data = receitaGrafico;
+                    this.barChartDataDespesas = cloneDespesas;
 
+                    const rhGrafico = [
+                        this.relatorioGeral.rh,
+                        this.relatorioGeral.vendas,
+                        this.relatorioGeral.financeiro,
+                        this.relatorioGeral.compras,
+                        this.relatorioGeral.logistica
 
-                   //const cloneDespesas = JSON.parse(JSON.stringify(this.barChartDataDespesas));
-                  //cloneDespesas[0].data = data;
-                    //this.barChartDataDespesas = cloneDespesas;
+                    ];
+                    const comprasGrafico = [
+
+                    ];
+                    const financeiroGrafico = [
+
+                    ];
+                    const vendasGrafico = [
+
+                    ];
+                    const LogisticaGrafico = [
+
+                    ];
+                    console.log('rhGrafico',rhGrafico);
+                    const clonex = JSON.parse(JSON.stringify(this.lineChartData));
+                    console.log('cloneDespesas',clonex);
+                    clonex[0].data = rhGrafico;
+                    this.lineChartData = clonex;
+
                 }),
                 (error => this.error = error) );
     }
 
-    gerar(){
-        for(let j =0; j <  this.datas.length; j++){
-            this.datas[j].data_registro = new Date(this.datas[j].data_registro);
-            this.data_inicio = new Date(this.data_inicio);
-            this.data_fim = new Date(this.data_fim);
-            if(( this.data_inicio >= this.datas[j].data_registro ) && (this.datas[j].data_registro <= this.data_fim) ){
-                if(this.datas[j].categoria == 'despesas'){
-
-                    if(this.datas[j].setor == 'rh'){
-                        this.relatorioGeral.rh = parseFloat(this.relatorioGeral.rh);
-                        this.relatorioGeral.rh += parseFloat(this.datas[j].valor);
-                    }if(this.datas[j].setor == 'logistica'){
-                        this.relatorioGeral.logistica = parseFloat(this.relatorioGeral.logistica);
-                        this.relatorioGeral.logistica += parseFloat(this.datas[j].valor);
-                    }if(this.datas[j].setor == 'vendas'){
-                        this.relatorioGeral.vendas = parseFloat(this.relatorioGeral.vendas);
-                        this.relatorioGeral.vendas += parseFloat(this.datas[j].valor);
-                    }if(this.datas[j].setor == 'compras'){
-                        this.relatorioGeral.compras = parseFloat(this.relatorioGeral.compras);
-                        this.relatorioGeral.compras += parseFloat(this.datas[j].valor);
-                    }
-
-                    this.resultadoDespesa += parseFloat(this.datas[j].valor);
-                }if(this.datas[j].categoria == 'receitas'){
-                    this.resultadoReceita += parseFloat(this.datas[j].valor);
-                }
-            }
-        }
-    }
 
     // bar chart
     public barChartOptionsDespesas: any = {
@@ -221,45 +273,73 @@ export class DashboardComponent implements OnInit {
         responsive: true
     };
     public barChartLabelsDespesas: string[] = [
-        'Dezembro 2018',
-        'Janeiro 2018',
-        'Fevereiro 2018',
-        'Março 2018',
-        'Abril 2018',
-        'Maio 2018'
+        'Despesas x Receitas'
     ];
     public barChartTypeDespesas: string = 'bar';
     public barChartLegendDespesas: boolean = true;
 
     public barChartDataDespesas: any[] = [
-        { data: [65, 59, 80, 81, 56, 55], label: 'Despesas' },
-        { data: [28, 48, 40, 19, 86, 27], label: 'Receitas' }
+        { data: [65], label: 'Despesas' },
+        { data: [28], label: 'Receitas' }
     ];
-    filterReceita(filter) {
-        return filter === 'despesas';
-    }
+
     public closeAlert(alert: any) {
         const index: number = this.alerts.indexOf(alert);
         this.alerts.splice(index, 1);
     }
 
-    public randomize(): void {
-        // Only Change 3 values
-        const data = [
-            Math.round(Math.random() * 100),
-            59,
-            80,
-            Math.random() * 100,
-            56,
-            Math.random() * 100,
-            40
-        ];
+    // lineChart
+    public lineChartData: Array<any> = [
+        { data: [65, 59, 80, 81, 56 ], label: 'Despesas' },
+    ];
+    public lineChartLabels: Array<any> = [
+        'Rh',
+        'Vendas',
+        'Financeiro',
+        'Compras',
+        'Logística'
+    ];
+    public lineChartOptions: any = {
+        responsive: true
+    };
+    public lineChartColors: Array<any> = [
+        {
+            // grey
+            backgroundColor: 'rgba(148,159,177,0.2)',
+            borderColor: 'rgba(148,159,177,1)',
+            pointBackgroundColor: 'rgba(148,159,177,1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+        },
+        {
+            // dark grey
+            backgroundColor: 'rgba(77,83,96,0.2)',
+            borderColor: 'rgba(77,83,96,1)',
+            pointBackgroundColor: 'rgba(77,83,96,1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(77,83,96,1)'
+        },
+        {
+            // grey
+            /*backgroundColor: 'rgba(148,159,177,0.2)',
+            borderColor: 'rgba(148,159,177,1)',
+            pointBackgroundColor: 'rgba(148,159,177,1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(148,159,177,0.8)'*/
+        }
+    ];
+        public lineChartLegend: boolean = true;
+        public lineChartType: string = 'line';
 
-        /**
-         * (My guess), for Angular to recognize the change in the dataset
-         * it has to change the dataset variable directly,
-         * so one way around it, is to clone the data, change it and then
-         * assign it;
-         */
-    }
+        // events
+        public chartClicked(e: any): void {
+            // console.log(e);
+        }
+
+        public chartHovered(e: any): void {
+            // console.log(e);
+        }
 }
